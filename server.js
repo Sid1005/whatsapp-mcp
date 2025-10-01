@@ -12,6 +12,23 @@ const twilioClient = twilio(
   process.env.TWILIO_AUTH_TOKEN
 );
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: "ok",
+    mcp_version: "1.0"
+  });
+});
+
+// OAuth discovery (return minimal spec)
+app.get('/.well-known/oauth-authorization-server', (req, res) => {
+  res.json({
+    issuer: "https://whatsapp-mcp-production-e11b.up.railway.app",
+    authorization_endpoint: "https://whatsapp-mcp-production-e11b.up.railway.app/oauth/authorize",
+    token_endpoint: "https://whatsapp-mcp-production-e11b.up.railway.app/oauth/token"
+  });
+});
+
 // MCP server info endpoint
 app.get('/mcp/info', (req, res) => {
   res.json({
